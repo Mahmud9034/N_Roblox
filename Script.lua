@@ -19,3 +19,7 @@ local player = {
     jumph = 10
 }
 
+local function spawnZombie()
+    local spawnPoint = spawnPoints[math.random(1, #spawnPoints)]
+    local zombie = zombiePreFab:Clone()
+        zombie.Parent = workspace
