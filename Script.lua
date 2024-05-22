@@ -1,5 +1,3 @@
-
-
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
 local zombiePreFab = ServerStorage:WaitForChild("Zombie")
@@ -7,7 +5,7 @@ local bossPreFab = ServerStorage:WaitForChild("Boss")
 local spawnPoints = workspace:WaitForChild("SpawnPoints"):GetChildren()
 
 local currentWave = 0
-local zombiesPerWave = 0
+local zombiesPerWave = 10
 local zombiesRemaining = 0
 
 local player = {
@@ -18,18 +16,14 @@ local player = {
     damage = 10,
     jumph = 10
 }
-local waves = {
-    maxWave = 100
-}
-
-for c = 1, waves.maxWave do
-    if c % 10 == 0 then
-        -- Spawn a boss here
-    end
-end
-
 
 local function spawnZombie()
     local spawnPoint = spawnPoints[math.random(1, #spawnPoints)]
     local zombie = zombiePreFab:Clone()
-        zombie.Parent = workspace
+     zombie.Parent = workspace
+
+     zombie:SetPrimaryPartCFrame(spawnPoint.CFrame)
+     zombiesRemaining = zombiesRemaining + 1
+
+     zombie.Humanoid.Died:Connect(function()
+        zombiesRemaining = zombiesRemaining - 1
