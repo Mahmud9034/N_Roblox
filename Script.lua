@@ -27,3 +27,6 @@ local function spawnZombie()
 
      zombie.Humanoid.Died:Connect(function()
         zombiesRemaining = zombiesRemaining - 1
+
+        local killer = zombie.Humanoid:FindFirstChild("creator") 
+        
