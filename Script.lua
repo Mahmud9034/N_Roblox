@@ -7,7 +7,7 @@ local bossPreFab = ServerStorage:WaitForChild("Boss")
 local spawnPoints = workspace:WaitForChild("SpawnPoints"):GetChildren()
 
 local currentWave = 0
-local zombiesPerWave = 10
+local zombiesPerWave = 0
 local zombiesRemaining = 0
 
 local player = {
@@ -18,6 +18,16 @@ local player = {
     damage = 10,
     jumph = 10
 }
+local waves = {
+    maxWave = 100
+}
+
+for c = 1, waves.maxWave do
+    if c % 10 == 0 then
+        -- Spawn a boss here
+    end
+end
+
 
 local function spawnZombie()
     local spawnPoint = spawnPoints[math.random(1, #spawnPoints)]
