@@ -9,4 +9,3 @@ local player = {
     jumph = 10
 }
 
-No
