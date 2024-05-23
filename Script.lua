@@ -1,17 +1,3 @@
-rojo init my-new-game
-
-# Project place file
-/build.rbxlx
-
-# Roblox Studio lock files
-.rbxlx.lock
-.rbxl.lock
-
-rojo build -o build.rbxlx
-
-rojo serve
-
-
 
 
 
@@ -45,5 +31,58 @@ local function spawnZombie()
      zombie.Humanoid.Died:Connect(function()
         zombiesRemaining = zombiesRemaining - 1
 
-        local killer = zombie.Humanoid:FindFirstChild("creator") 
-        
+        local killer = zombie.Humanoid:FindFirstChild("creator")
+        if killer and killer.Value then
+            local player = killer.Value
+            player.leaderstats.Coins.Value = player.leaderstats.Coins.Value + 10 
+        end 
+        end)
+    end
+
+    local function spawnBoss() 
+        local spawnPoint = spawnPoints[math.random(1, #spawnPoints)] 
+        local boss = bossPrefab:Clone() 
+        boss.Parent = workspace
+
+        boss:SetPrimaryPartCFrame(spawnPoint.CFrame)
+        zombiesRemaining = zombiesRemaining + 1 
+
+        boss.Humanoid.Died:Connect(function()
+            zombiesRemaining = zombiesRemaining - 1 
+            local killer = boss.Humanoid:FindFirstChild("creator") 
+            if killer and killer.Value then 
+                local player = killer.Value
+                player.leaderstats.Coins.Value = player.leaderstats.Coins.Value + 100 
+            end 
+            end) 
+        end
+
+        local function startWave()
+            currentWave = currentWave + 1
+            for i = 1, zombiesPerWave do
+                spawnZombie()
+            end 
+            
+            if currentWave % 20 == 0 then
+                spawnBoss()
+            end
+        end
+
+        game:GetService("RunService").Stepped:Connect(function()
+            if zombiesRemaining == 0 then
+                startWave()
+            end
+        end)
+
+        Players.PlayerAdded:Connect(function(player)
+            local leaderstats = Instance.new("Folder")
+            leaderstats.Name = "leaderstats"
+            leaderstats.Parent = player
+
+            local coins = Instance.new("IntValue")
+            coins.Name = "Coins"
+            coins.Value = 0
+            coins.Parent = leaderstats 
+        end)
+
+
