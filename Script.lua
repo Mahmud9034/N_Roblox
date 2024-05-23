@@ -1,3 +1,20 @@
+rojo init my-new-game
+
+# Project place file
+/build.rbxlx
+
+# Roblox Studio lock files
+.rbxlx.lock
+.rbxl.lock
+
+rojo build -o build.rbxlx
+
+rojo serve
+
+
+
+
+
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
 local zombiePreFab = ServerStorage:WaitForChild("Zombie")
