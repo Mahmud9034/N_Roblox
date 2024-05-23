@@ -86,3 +86,61 @@ local function spawnZombie()
         end)
 
 
+-- Zombie Script
+local humanoid = script.Parent:WaitForChild("Humanoid") 
+local target = nil
+while true do wait(1)
+    if target == nil or target.Parent == nil then
+        target = game.Players:GetPlayers()[math.random(1, #game.Players)].Character 
+    end
+    humanoid:MoveTo(target.PrimaryPart.Position) 
+end
+
+-- Boss Script
+local humanoid = script.Parent:WaitForChild("Humanoid") 
+local target = nil 
+
+while true do 
+    wait(1)
+    if target == nil or target.Parent == nil then
+        target = game.Players:GetPlayers()[math.random(1, #game.Players)].Character 
+    end
+    humanoid:MoveTo(target.PrimaryPart.Position)
+    if math.random(1, 5) == 1 then
+        -- Boss special ability
+        local fireball = Instance.new("Part") 
+        fireball.Size = Vector3.new(2, 2, 2)
+        fireball.Position = script.Parent.PrimaryPart.Position
+        fireball.Velocity = (target.PrimaryPart.Position - fireball.Position).unit * 50
+        fireball.Parent = workspace 
+
+        fireball.Touched:Connect(function(hit)
+            if hit.Parent:FindFirstChild("Humanoid") then 
+                hit.Parent.Humanoid:TakeDamage(50)
+                fireball:Destroy() 
+            end 
+        end) 
+    end 
+end
+
+--Upgrade Script
+local player = game.Players.LocalPlayer
+local coins = player:WaitForChild("leaderstats"):WaitForChild("Coins") 
+local upgradeButtons = { attackButton = script.Parent:WaitForChild("AttackUpgradeButton"), speedButton = script.Parent:WaitForChild("SpeedUpgradeButton"), } 
+
+upgradeButtons.attackButton.MouseButton1Click:Connect(function()
+    if coins.Value >= 50 then 
+        coins.Value = coins.Value - 50
+        player.Character.Humanoid.WalkSpeed = player.Character.Humanoid.WalkSpeed + 1 
+    end 
+end) 
+
+upgradeButtons.speedButton.MouseButton1Click:Connect(function()
+    if coins.Value >= 100 then 
+        coins.Value = coins.Value - 100
+       
+        player.Character.Humanoid.MaxHealth = player.Character.Humanoid.MaxHealth + 10
+        
+        player.Character.Humanoid.Health = player.Character.Humanoid.MaxHealth
+     end
+     end)
