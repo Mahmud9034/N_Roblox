@@ -6,6 +6,5 @@ local player = {
     kills = 0,
     speed = 10,
     damage = 10,
-    jumph = 10
+    jump = 10
 }
-
