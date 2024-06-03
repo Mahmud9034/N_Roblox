@@ -138,7 +138,6 @@ end)
 upgradeButtons.speedButton.MouseButton1Click:Connect(function()
     if coins.Value >= 100 then 
         coins.Value = coins.Value - 100
-       
         player.Character.Humanoid.MaxHealth = player.Character.Humanoid.MaxHealth + 10
         
         player.Character.Humanoid.Health = player.Character.Humanoid.MaxHealth
